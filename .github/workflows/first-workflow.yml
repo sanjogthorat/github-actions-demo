@@ -1,16 +1,19 @@
 name: Java Maven Build
 
-# 👉 Workflow Trigger
+# 👉 Workflow Triggers
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
     name: Build and Test with Maven
-    runs-on: ubuntu-latest   # GitHub-hosted Linux runner
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout repo code
@@ -24,7 +27,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Step 3: Cache Maven dependencies (optional but useful)
+      # Step 3: Cache Maven dependencies
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
@@ -40,7 +43,7 @@ jobs:
       - name: Run Unit Tests
         run: mvn test
 
-      # Step 6: Upload build artifact (optional)
+      # Step 6: Upload build artifact
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
